@@ -1,0 +1,108 @@
+    // 206971962 / kaufmanlinoy@gmail.com
+    #include "Graph.hpp"
+    #include <iostream>
+    #include <vector>
+  
+
+    
+    using namespace ariel;
+
+
+
+    Graph::Graph() {}
+    Graph::~Graph() {}
+
+
+    //chek if the mat is valid (square matrix)
+    bool Graph::isvalid(const std::vector<std::vector<int>>& mat)
+    {
+        if(mat.empty()){
+    
+            return false;
+        }
+        else{
+            size_t size = mat.size(); // mat.size = num of rows
+            for (const auto& row : mat) { // row is a const reference
+                    if (row.size() != size) { // if the row size is not the same as the size of rows
+                        return false;
+                    }
+                }
+        }
+        return true;
+    }
+    //send invalid the matrix and if true, load else, throw invalid gragh
+    void Graph::loadGraph(const vector<vector<int> > &mat)
+    {
+        if(isvalid(mat)){
+            this->Matrix = mat;
+        }
+        else{
+            throw std::invalid_argument("invalid Matrix");
+        }
+    }
+    //print num of vertices and edges
+    void Graph::printGraph() const
+    {
+        int numVertices = Matrix.size();
+        int numEdges = 0;
+        for (const auto& row : Matrix)
+        {
+            for (int edge : row)
+            {
+                if (edge != 0)
+                {
+                    numEdges++;
+                }
+            }
+        }
+        cout << "Graph with " << numVertices << " vertices and " << numEdges << " edges." << endl;
+    }
+    std::vector<std::size_t> Graph::getNeighbors(std::size_t node) const {
+        std::vector<std::size_t> neighbors;
+        const std::vector<int>& row = Matrix[node]; // Access the row corresponding to the node
+
+        // Iterate over the row to find the neighbors (non-zero entries)
+        for (std::size_t i = 0; i < row.size(); ++i) {
+            if (row[i] != 0) {
+                neighbors.push_back(i); // Add the index to the neighbors vector
+            }
+        }
+
+        return neighbors;
+    }
+    //if the matrix are the same size
+    bool isSameSize (const vector<vector<int>>& mat1, const vector<vector<int>>& mat2){
+        if (mat1.size() != mat2.size())
+        {
+            return false;
+        }
+        for (size_t i = 0; i < mat1.size(); i++)
+        {
+            if(mat1[i].size() != mat2[i].size())
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    Graph operator+(const Graph& g1, const Graph& g2) {
+        
+        if () {
+            throw invalid_argument("Invalid addition: graphs not the same size");
+        }
+
+        Graph g;
+        vector<vector<int>> graph(n, vector<int>(n, 0));
+
+        for (size_t i = 0; i < n; ++i) {
+            for (size_t j = 0; j < n; ++j) {
+                graph[i][j] = g1.Matrix[i][j] + g2.Matrix[i][j];
+            }
+        }
+
+        g.loadGraph(graph);
+        return g;
+    }
+
+    }
