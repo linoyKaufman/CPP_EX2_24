@@ -87,22 +87,21 @@
     }
 
     Graph operator+(const Graph& g1, const Graph& g2) {
-        
-        if () {
-            throw invalid_argument("Invalid addition: graphs not the same size");
-        }
+        if (!isSameSize(g1.getMatrix(), g2.getMatrix())) {
+        throw std::invalid_argument("the matrices are not equal in size");
+    }
 
-        Graph g;
-        vector<vector<int>> graph(n, vector<int>(n, 0));
+        Graph g3;
+        size_t n = g1.size();
+        vector<vector<int>> helpGraph(n, vector<int>(n, 0));
 
         for (size_t i = 0; i < n; ++i) {
             for (size_t j = 0; j < n; ++j) {
-                graph[i][j] = g1.Matrix[i][j] + g2.Matrix[i][j];
+                helpGraph[i][j] = g1.getMatrix()[i][j] + g2.getMatrix()[i][j];
             }
         }
 
-        g.loadGraph(graph);
-        return g;
+        g3.loadGraph(helpGraph);
+        return g3;
     }
-
-    }
+    
