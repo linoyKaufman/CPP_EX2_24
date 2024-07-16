@@ -4,11 +4,13 @@
     #include <vector>
   
 
-    
-    using namespace ariel;
+    namespace ariel {
     
     Graph::Graph() {}
     Graph::~Graph() {}
+    void Graph::cleanGraph(){
+        this->getMatrix();
+    }
 
   
     //chek if the mat is valid (square matrix)
@@ -125,8 +127,59 @@
         return g3;
     }
 
-
-
-
-
+    Graph& Graph :: operator+=(const Graph& g1){
+        if (!isSameSize(g1.getMatrix() , this->getMatrix())){
+        throw std::invalid_argument("the matrices are not equal in size");
     
+
+        Graph g3;
+        size_t n = g1.size();
+        vector<vector<int>> helpGraph(n, vector<int>(n, 0));
+
+        for (size_t i = 0; i < n; ++i) {
+            for (size_t j = 0; j < n; ++j) {
+                helpGraph[i][j] = g1.getMatrix()[i][j] + this->getMatrix()[i][j];
+            }
+        }
+
+        g3.loadGraph(helpGraph);
+        return g3;
+    }
+        
+    }
+    Graph& Graph :: operator-=(const Graph& g1){
+        if (!isSameSize(g1.getMatrix() , this->getMatrix())){
+        throw std::invalid_argument("the matrices are not equal in size");
+    
+
+        Graph g3;
+        size_t n = g1.size();
+        vector<vector<int>> helpGraph(n, vector<int>(n, 0));
+
+        for (size_t i = 0; i < n; ++i) {
+            for (size_t j = 0; j < n; ++j) {
+                helpGraph[i][j] = g1.getMatrix()[i][j] - this->getMatrix()[i][j];
+            }
+        }
+
+        g3.loadGraph(helpGraph);
+        return g3;
+    }  
+ }
+
+    bool Graph::operator==(const Graph& g1) const {
+    if (!isSameSize(g1.getMatrix() , this->getMatrix())){
+        return false;
+    size_t  n = g1.getMatrix().size();
+    for (size_t i = 0; i < n; ++i) {
+        for (size_t j = 0; j < n; ++j) {
+            if(g1.getMatrix()[i][j] !=this->getMatrix()[i][j]){
+                return false;
+            }
+        }
+    }
+    return true;
+
+}
+}
+    }

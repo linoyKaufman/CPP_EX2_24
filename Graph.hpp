@@ -20,13 +20,19 @@ namespace ariel {
         void printGraph() const;
         size_t size() const{
             return this->Matrix.size();}
-        
+        friend bool isSameSize(const std::vector<std::vector<int>>& mat1, const std::vector<std::vector<int>>& mat2);
+        void Graph::cleanGraph();
         std::vector<std::pair<size_t , std::pair<size_t , int>>> getEdges() const;
         std::vector<std::size_t> getNeighbors(std::size_t node) const ;
         
         
         friend Graph operator+(const Graph& g1,const Graph& g2);
         friend Graph operator-(const Graph& g1,const Graph& g2);
+        Graph& Graph :: operator+=(const Graph& g1);
+        Graph& Graph :: operator-=(const Graph& g1);
+        Graph& Graph :: operator==(const Graph& g1);
+        bool Graph::operator==(const Graph& g) const ;
+
         
         
          Graph Graph::operator+() const ;
