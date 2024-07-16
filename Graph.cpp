@@ -6,13 +6,11 @@
 
     
     using namespace ariel;
-
-
-
+    
     Graph::Graph() {}
     Graph::~Graph() {}
 
-
+  
     //chek if the mat is valid (square matrix)
     bool Graph::isvalid(const std::vector<std::vector<int>>& mat)
     {
@@ -85,7 +83,11 @@
         }
         return true;
     }
-
+    
+    Graph Graph::operator+() const {
+    return *this;
+    }
+  
     Graph operator+(const Graph& g1, const Graph& g2) {
         if (!isSameSize(g1.getMatrix(), g2.getMatrix())) {
         throw std::invalid_argument("the matrices are not equal in size");
@@ -104,4 +106,27 @@
         g3.loadGraph(helpGraph);
         return g3;
     }
+    Graph operator-(const Graph& g1, const Graph& g2) {
+        if (!isSameSize(g1.getMatrix(), g2.getMatrix())) {
+        throw std::invalid_argument("the matrices are not equal in size");
+    }
+
+        Graph g3;
+        size_t n = g1.size();
+        vector<vector<int>> helpGraph(n, vector<int>(n, 0));
+
+        for (size_t i = 0; i < n; ++i) {
+            for (size_t j = 0; j < n; ++j) {
+                helpGraph[i][j] = g1.getMatrix()[i][j] - g2.getMatrix()[i][j];
+            }
+        }
+
+        g3.loadGraph(helpGraph);
+        return g3;
+    }
+
+
+
+
+
     
