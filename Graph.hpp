@@ -39,6 +39,8 @@ namespace ariel {
         bool Graph::operator!= (Graph& g1);
         void Graph::operator++();
         void Graph::operator--();
+        void Graph::operator*(int);
+        Graph Graph::operator*(Graph& g1);
 
         
         

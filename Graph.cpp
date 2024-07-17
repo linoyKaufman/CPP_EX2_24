@@ -255,10 +255,46 @@ void Graph::operator--(){
         for (size_t j = 0; j < size; j++)
         {
             this->getMatrix()[i][j]=this->getMatrix()[i][j]-1;
+        }   
+    }
+}
+void Graph::operator*(int num){
+    size_t size = this->getMatrix().size();
+    for (size_t i = 0; i < size; i++)
+    {
+        for (size_t j = 0; j < size; j++)
+        {
+            this->getMatrix()[i][j]=this->getMatrix()[i][j]* num;
+        }   
+    }
+}  
+Graph Graph::operator*(Graph& g1){
+    if(this->getMatrix()[0].size() != g1.getMatrix().size()){
+         throw std::invalid_argument("Matrix dimensions do not match for multiplication");
+        }
+    size_t numROWthis = this->Matrix.size();
+    size_t numCOLthis = this->Matrix[0].size();
+    size_t COLg1 = g1.Matrix[0].size();
+
+    std::vector<std::vector<int>> resultMat(numROWthis, std::vector<int>(COLg1,0));
+
+    for (size_t i = 0; i < numROWthis; i++)
+    {
+        for (size_t j = 0; j < COLg1; j++)
+        {
+            for (size_t k = 0; i < numCOLthis; i++)
+            {
+                resultMat[i][j] += this->Matrix[i][k] * g1.Matrix[k][j];
+            }
+            
         }
         
     }
+    Graph result;
+    result.loadGraph(resultMat);
+    return result;
     
-}
-    
-}
+    }
+
+
+} 
