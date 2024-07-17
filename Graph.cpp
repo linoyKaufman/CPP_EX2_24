@@ -2,6 +2,8 @@
     #include "Graph.hpp"
     #include <iostream>
     #include <vector>
+    #include <Algorithms.cpp>
+    #include "Algorithms.hpp"
   
 
     namespace ariel {
@@ -167,7 +169,7 @@
     }  
  }
 
-    bool Graph::operator==(const Graph& g1) const {
+    bool Graph::operator==(Graph& g1) {
     if (!isSameSize(g1.getMatrix() , this->getMatrix())){
         return false;
     size_t  n = g1.getMatrix().size();
@@ -182,4 +184,81 @@
 
 }
 }
+bool Graph::isContaine(Graph& g1){
+    
+    if (g1.getMatrix().size()> this->getMatrix().size()){
+        return false;  //g1 is bigger
     }
+    for (size_t i = 0; i < this->getMatrix().size(); i++)
+    {
+        for (size_t j = 0; i < this->getMatrix().size(); j++)
+        {
+            if(g1.getMatrix()[i][j]>=1 && g1.getMatrix()[i][j]>this->getMatrix()[i][j]){
+                return false;
+            }
+        }
+    }
+    return true;
+    
+}
+//if this>g1
+bool Graph::operator>(Graph& g1) {
+    
+    if(g1.isContaine(*this)&& !isSameSize(g1.getMatrix(), this->getMatrix())){
+        return true;
+    }
+    if(this->isContaine(g1)&& !isSameSize(g1.getMatrix(), this->getMatrix())){
+        return false;
+    }
+    else if (this->getEdges() > g1.getEdges()){
+        return true;
+    }
+    else if(this->size()> g1.size()){
+        return true;
+    }
+    
+return false;
+
+}
+//if this<g1
+bool Graph::operator<(Graph& g1) {
+ return !(*this > g1);
+}
+bool Graph::operator <= (Graph& g1){
+    return (*this < g1) || (g1.operator==(*this));
+}
+bool Graph::operator >= (Graph& g1){
+    return (*this > g1) || (g1.operator==(*this));
+}
+bool Graph::operator!= (Graph& g1){
+    if( g1.operator==(*this)){
+        return true;
+    }
+    return false;
+}
+void Graph::operator++(){
+    size_t size = this->getMatrix().size();
+    for (size_t i = 0; i < size; i++)
+    {
+        for (size_t j = 0; j < size; j++)
+        {
+            this->getMatrix()[i][j]=this->getMatrix()[i][j]+1;
+        }
+        
+    }
+    
+}
+void Graph::operator--(){
+    size_t size = this->getMatrix().size();
+    for (size_t i = 0; i < size; i++)
+    {
+        for (size_t j = 0; j < size; j++)
+        {
+            this->getMatrix()[i][j]=this->getMatrix()[i][j]-1;
+        }
+        
+    }
+    
+}
+    
+}

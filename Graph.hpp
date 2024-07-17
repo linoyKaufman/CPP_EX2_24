@@ -30,8 +30,15 @@ namespace ariel {
         friend Graph operator-(const Graph& g1,const Graph& g2);
         Graph& Graph :: operator+=(const Graph& g1);
         Graph& Graph :: operator-=(const Graph& g1);
-        Graph& Graph :: operator==(const Graph& g1);
-        bool Graph::operator==(const Graph& g) const ;
+        bool Graph::operator==( Graph& g) ;
+        bool Graph::operator>(Graph& g1) ;
+        bool Graph::isContaine(Graph& g1);
+        bool Graph::operator<(Graph& g1);
+        bool Graph::operator<= (Graph& g1);
+        bool Graph::operator >= (Graph& g1);
+        bool Graph::operator!= (Graph& g1);
+        void Graph::operator++();
+        void Graph::operator--();
 
         
         
