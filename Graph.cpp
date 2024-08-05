@@ -2,7 +2,9 @@
     #include "Graph.hpp"
     #include <iostream>
     #include <vector>
-    #include <Algorithms.cpp>
+    #include <ostream>
+    #include <sstream>
+    #include "Algorithms.cpp"
     #include "Algorithms.hpp"
   
 
@@ -91,7 +93,19 @@
     Graph Graph::operator+() const {
     return *this;
     }
-  
+
+   void Graph::operator*=(int num){
+    size_t numROWthis = this->Matrix.size();
+    size_t numCOLthis = this->Matrix[0].size();
+    
+    for (size_t i = 0; i < numROWthis; i++)
+    {
+        for (size_t j = 0; j < numCOLthis; i++)
+        {
+            this->getMatrix()[i][j]=this->getMatrix()[i][j]*num;
+        } 
+    }
+    }
     Graph operator+(const Graph& g1, const Graph& g2) {
         if (!isSameSize(g1.getMatrix(), g2.getMatrix())) {
         throw std::invalid_argument("the matrices are not equal in size");
@@ -129,49 +143,36 @@
         return g3;
     }
 
-    Graph& Graph :: operator+=(const Graph& g1){
+    void Graph :: operator+=(const Graph& g1){
         if (!isSameSize(g1.getMatrix() , this->getMatrix())){
-        throw std::invalid_argument("the matrices are not equal in size");
+        throw std::invalid_argument("the matrices are not equal in size");}
     
-
-        Graph g3;
         size_t n = g1.size();
-        vector<vector<int>> helpGraph(n, vector<int>(n, 0));
+    
+        for (size_t i = 0; i < n; ++i) {
+            for (size_t j = 0; j < n; ++j) {
+                this->getMatrix()[i][j] = g1.getMatrix()[i][j] + this->getMatrix()[i][j];
+            }
+        }
+    }
+
+    void Graph :: operator-=(const Graph& g1){
+        if (!isSameSize(g1.getMatrix() , this->getMatrix())){
+        throw std::invalid_argument("the matrices are not equal in size");}
+    
+        size_t n = g1.size();
 
         for (size_t i = 0; i < n; ++i) {
             for (size_t j = 0; j < n; ++j) {
-                helpGraph[i][j] = g1.getMatrix()[i][j] + this->getMatrix()[i][j];
+                this->getMatrix()[i][j] = g1.getMatrix()[i][j] - this->getMatrix()[i][j];
             }
         }
-
-        g3.loadGraph(helpGraph);
-        return g3;
-    }
-        
-    }
-    Graph& Graph :: operator-=(const Graph& g1){
-        if (!isSameSize(g1.getMatrix() , this->getMatrix())){
-        throw std::invalid_argument("the matrices are not equal in size");
-    
-
-        Graph g3;
-        size_t n = g1.size();
-        vector<vector<int>> helpGraph(n, vector<int>(n, 0));
-
-        for (size_t i = 0; i < n; ++i) {
-            for (size_t j = 0; j < n; ++j) {
-                helpGraph[i][j] = g1.getMatrix()[i][j] - this->getMatrix()[i][j];
-            }
-        }
-
-        g3.loadGraph(helpGraph);
-        return g3;
     }  
- }
+ 
 
     bool Graph::operator==(Graph& g1) {
     if (!isSameSize(g1.getMatrix() , this->getMatrix())){
-        return false;
+        return false;}
     size_t  n = g1.getMatrix().size();
     for (size_t i = 0; i < n; ++i) {
         for (size_t j = 0; j < n; ++j) {
@@ -183,7 +184,7 @@
     return true;
 
 }
-}
+
 bool Graph::isContaine(Graph& g1){
     
     if (g1.getMatrix().size()> this->getMatrix().size()){
@@ -258,7 +259,7 @@ void Graph::operator--(){
         }   
     }
 }
-void Graph::operator*(int num){
+void Graph::operator*(int num)const{
     size_t size = this->getMatrix().size();
     for (size_t i = 0; i < size; i++)
     {
@@ -294,7 +295,39 @@ Graph Graph::operator*(Graph& g1){
     result.loadGraph(resultMat);
     return result;
     
+}
+int Graph::getEdges() const {
+    int numEdges = 0;
+    for (const auto& row : Matrix) {
+        for (int edge : row) {
+            if (edge != 0) {
+                numEdges++;
+            }
+        }
     }
+    return numEdges;
+}
+void Graph::operator/=(int num) {
+    size_t size = this->getMatrix().size();
+    for (size_t i = 0; i < size; i++) {
+        for (size_t j = 0; j < size; j++) {
+            if (num != 0) {
+                this->getMatrix()[i][j] /= num;
+            }
+        }
+    }
+}
 
+
+std::ostream& operator<<(std::ostream& os, const Graph& graph) {
+    const auto& mat = graph.getMatrix();
+    for (const auto& row : mat) {
+        for (int val : row) {
+            os << val << " ";
+        }
+        os << std::endl;
+    }
+    return os;
+}
 
 } 

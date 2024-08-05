@@ -1,8 +1,9 @@
     // 206971962 / kaufmanlinoy@gmail.com
     #include "Algorithms.hpp"
     #include <list>
-    #include "Graph.hpp"
     #include <queue>
+    #include "Graph.hpp"
+    
 
     using namespace std;
     using namespace ariel;
@@ -216,3 +217,4 @@
 
     return "no negative cycle";
     }
+    
