@@ -4,7 +4,6 @@
     #include <vector>
     #include <ostream>
     #include <sstream>
-    #include "Algorithms.cpp"
     #include "Algorithms.hpp"
   
 
@@ -283,7 +282,7 @@ Graph Graph::operator*(Graph& g1){
     {
         for (size_t j = 0; j < COLg1; j++)
         {
-            for (size_t k = 0; i < numCOLthis; i++)
+            for (size_t k = 0; k < numCOLthis; k++)
             {
                 resultMat[i][j] += this->Matrix[i][k] * g1.Matrix[k][j];
             }
@@ -295,6 +294,7 @@ Graph Graph::operator*(Graph& g1){
     result.loadGraph(resultMat);
     return result;
     
+
 }
 int Graph::getEdges() const {
     int numEdges = 0;
