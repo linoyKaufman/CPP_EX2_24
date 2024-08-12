@@ -1,9 +1,9 @@
     // 206971962 / kaufmanlinoy@gmail.com
     #include "Algorithms.hpp"
     #include <list>
-    #include <queue>
     #include "Graph.hpp"
-    
+    #include <queue>
+    #include <cstdint> //cause MAX SIZE
 
     using namespace std;
     using namespace ariel;
@@ -40,14 +40,14 @@
         return 1; 
     }
 
-    int Algorithms::isContainsCycle(const Graph& g1){
-    if (g1.size()>1)
-    {
-        vector<vector<int>> mat = g1.getMatrix();
+    int Algorithms::isContainsCycle(const Graph &graph){
+        vector<vector<int>> mat = graph.getMatrix();
         size_t numVertices = mat.size();
         vector<bool> visited (numVertices, false);
         vector<size_t> parent (numVertices, (size_t)-1);
+
         stack<size_t> stack;
+        //
         for(size_t i=0; i<numVertices;i++){
             if(!visited[i]){
                 stack.push(i);
@@ -56,34 +56,36 @@
                     size_t current = stack.top();
                     stack.pop();
 
-                    if (visited[current]){
+                    if (visited[current])
+                    {
                     return 1;
                     }
                     visited[current]=true;
 
-                    for (size_t neighbor : g1.getNeighbors(current)){
-                    if (neighbor!= parent[current]){
+                    for (size_t neighbor : graph.getNeighbors(current))
+                    {
+                    if (neighbor!= parent[current])
+                    {
                         parent[neighbor]=current;
                         stack.push(neighbor);
                     }
+                    
                     }
-                }  
+                    
+                
+                }
+
+            
+                
             }
+
         }
-    }
         return 0;
     }
 
     string Algorithms::shortestPath (const Graph &graph, size_t start, size_t end){
         const vector<vector<int>> &mat = graph.getMatrix();
         size_t numVertices = mat.size();
-
-
-    // Check if the matrix is empty
-    if (mat.empty() || mat[0].empty()) {
-        return "Empty graph";
-    }
-
         vector<vector<int>> adjacencyMatrix = graph.getMatrix();
 
         //chek if start and end is valid
@@ -170,21 +172,10 @@
 
 
     string Algorithms::negativeCycle(const Graph &graph){
-        if(isContainsCycle(graph)==1){
-            return "no negative cycle";}
-
+        if(isContainsCycle(graph)==1)
+            return "no negative cycle";
         size_t n = graph.size();
-        if (n == 0){
-            return "Empty graph";}
-    
         const vector<vector<int>> &adjMat = graph.getMatrix();
-
-         // Ensure that the adjacency matrix is square
-        for (const auto& row : adjMat) {
-        if (row.size() != n)
-            return "Invalid adjacency matrix"; }
-    
-
         vector<int> dist (n,0);
         vector<int> prev (n,-1);
         size_t source = 0;
@@ -226,4 +217,3 @@
 
     return "no negative cycle";
     }
-    
