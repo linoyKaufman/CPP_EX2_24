@@ -1,5 +1,4 @@
-    // 206971962 / kaufmanlinoy@gmail.com
-    #include "Graph.hpp"
+#include "Graph.hpp"
     #include <iostream>
     #include <vector>
     #include <ostream>
@@ -89,26 +88,48 @@
         return true;
     }
     
+    
+
+    bool Graph::isContaine(Graph& g1){
+    
+    if (g1.getMatrix().size()> this->getMatrix().size()){
+        return false;  //g1 is bigger
+    }
+    for (size_t i = 0; i < this->getMatrix().size(); i++)
+    {
+        for (size_t j = 0; i < this->getMatrix().size(); j++)
+        {
+            if(g1.getMatrix()[i][j]>=1 && g1.getMatrix()[i][j]>this->getMatrix()[i][j]){
+                return false;
+            }
+        }
+    }
+    return true;
+    
+}
+
+int Graph::getEdges() const {
+    int numEdges = 0;
+    for (const auto& row : Matrix) {
+        for (int edge : row) {
+            if (edge != 0) {
+                numEdges++;
+            }
+        }
+    }
+    return numEdges;
+}
+
+
+    // simple operators
+
     Graph Graph::operator+() const {
     return *this;
     }
 
-   void Graph::operator*=(int num){
-    size_t numROWthis = this->Matrix.size();
-    size_t numCOLthis = this->Matrix[0].size();
-    
-    for (size_t i = 0; i < numROWthis; i++)
-    {
-        for (size_t j = 0; j < numCOLthis; i++)
-        {
-            this->getMatrix()[i][j]=this->getMatrix()[i][j]*num;
-        } 
-    }
-    }
     Graph operator+(const Graph& g1, const Graph& g2) {
         if (!isSameSize(g1.getMatrix(), g2.getMatrix())) {
-        throw std::invalid_argument("the matrices are not equal in size");
-    }
+        throw std::invalid_argument("the matrices are not equal in size");}
 
         Graph g3;
         size_t n = g1.size();
@@ -123,6 +144,7 @@
         g3.loadGraph(helpGraph);
         return g3;
     }
+
     Graph operator-(const Graph& g1, const Graph& g2) {
         if (!isSameSize(g1.getMatrix(), g2.getMatrix())) {
         throw std::invalid_argument("the matrices are not equal in size");
@@ -167,9 +189,32 @@
             }
         }
     }  
- 
 
-    bool Graph::operator==(Graph& g1) {
+    void Graph::operator++(){
+        size_t size = this->getMatrix().size();
+        for (size_t i = 0; i < size; i++)
+        {
+            for (size_t j = 0; j < size; j++)
+            {
+                this->getMatrix()[i][j]=this->getMatrix()[i][j]+1;
+            }
+            
+        }
+        
+    }
+    void Graph::operator--(){
+    size_t size = this->getMatrix().size();
+    for (size_t i = 0; i < size; i++)
+    {
+        for (size_t j = 0; j < size; j++)
+        {
+            this->getMatrix()[i][j]=this->getMatrix()[i][j]-1;
+        }   
+    }
+}
+//comperation operators
+
+bool Graph::operator==(Graph& g1) {
     if (!isSameSize(g1.getMatrix() , this->getMatrix())){
         return false;}
     size_t  n = g1.getMatrix().size();
@@ -182,24 +227,6 @@
     }
     return true;
 
-}
-
-bool Graph::isContaine(Graph& g1){
-    
-    if (g1.getMatrix().size()> this->getMatrix().size()){
-        return false;  //g1 is bigger
-    }
-    for (size_t i = 0; i < this->getMatrix().size(); i++)
-    {
-        for (size_t j = 0; i < this->getMatrix().size(); j++)
-        {
-            if(g1.getMatrix()[i][j]>=1 && g1.getMatrix()[i][j]>this->getMatrix()[i][j]){
-                return false;
-            }
-        }
-    }
-    return true;
-    
 }
 //if this>g1
 bool Graph::operator>(Graph& g1) {
@@ -220,9 +247,10 @@ bool Graph::operator>(Graph& g1) {
 return false;
 
 }
+
 //if this<g1
 bool Graph::operator<(Graph& g1) {
- return !(*this > g1);
+    return !(*this > g1);
 }
 bool Graph::operator <= (Graph& g1){
     return (*this < g1) || (g1.operator==(*this));
@@ -236,28 +264,9 @@ bool Graph::operator!= (Graph& g1){
     }
     return false;
 }
-void Graph::operator++(){
-    size_t size = this->getMatrix().size();
-    for (size_t i = 0; i < size; i++)
-    {
-        for (size_t j = 0; j < size; j++)
-        {
-            this->getMatrix()[i][j]=this->getMatrix()[i][j]+1;
-        }
-        
-    }
-    
-}
-void Graph::operator--(){
-    size_t size = this->getMatrix().size();
-    for (size_t i = 0; i < size; i++)
-    {
-        for (size_t j = 0; j < size; j++)
-        {
-            this->getMatrix()[i][j]=this->getMatrix()[i][j]-1;
-        }   
-    }
-}
+
+//multiplication operators
+
 void Graph::operator*(int num)const{
     size_t size = this->getMatrix().size();
     for (size_t i = 0; i < size; i++)
@@ -267,7 +276,21 @@ void Graph::operator*(int num)const{
             this->getMatrix()[i][j]=this->getMatrix()[i][j]* num;
         }   
     }
-}  
+}
+
+void Graph::operator*=(int num){
+    size_t numROWthis = this->Matrix.size();
+    size_t numCOLthis = this->Matrix[0].size();
+
+    for (size_t i = 0; i < numROWthis; i++)
+    {
+        for (size_t j = 0; j < numCOLthis; i++)
+        {
+            this->getMatrix()[i][j]=this->getMatrix()[i][j]*num;
+        } 
+    }
+}
+
 Graph Graph::operator*(Graph& g1){
     if(this->getMatrix()[0].size() != g1.getMatrix().size()){
          throw std::invalid_argument("Matrix dimensions do not match for multiplication");
@@ -285,27 +308,12 @@ Graph Graph::operator*(Graph& g1){
             for (size_t k = 0; k < numCOLthis; k++)
             {
                 resultMat[i][j] += this->Matrix[i][k] * g1.Matrix[k][j];
-            }
-            
-        }
-        
+            }  
+        }  
     }
     Graph result;
     result.loadGraph(resultMat);
     return result;
-    
-
-}
-int Graph::getEdges() const {
-    int numEdges = 0;
-    for (const auto& row : Matrix) {
-        for (int edge : row) {
-            if (edge != 0) {
-                numEdges++;
-            }
-        }
-    }
-    return numEdges;
 }
 void Graph::operator/=(int num) {
     size_t size = this->getMatrix().size();
@@ -317,7 +325,6 @@ void Graph::operator/=(int num) {
         }
     }
 }
-
 
 std::ostream& operator<<(std::ostream& os, const Graph& graph) {
     const auto& mat = graph.getMatrix();
