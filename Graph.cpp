@@ -284,7 +284,7 @@ void Graph::operator*=(int num){
 
     for (size_t i = 0; i < numROWthis; i++)
     {
-        for (size_t j = 0; j < numCOLthis; i++)
+        for (size_t j = 0; j < numCOLthis; j++)
         {
             this->getMatrix()[i][j]=this->getMatrix()[i][j]*num;
         } 

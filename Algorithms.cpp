@@ -27,10 +27,10 @@
                 if(mat[current][i]!=0 && !visited[i]){
                     visited[i]=true;
                     queue.push_back(i);
-                    }
+                }
             }
                 
-        }
+    }
         for (bool visit : visited){
                 if(!visit){
                     return 0;
