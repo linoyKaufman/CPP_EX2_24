@@ -198,24 +198,27 @@ void Graph::operator-=(const Graph& g1) {
 }
 
 // Increment each element of the adjacency matrix by 1
-void Graph::operator++() {
+Graph& Graph::operator++() {
     size_t size = this->getMatrix().size();
     for (size_t i = 0; i < size; i++) {
         for (size_t j = 0; j < size; j++) {
             this->getMatrix()[i][j]++;
         }
     }
+
+    return *this; // Return reference to the current object
 }
 
 
 // Decrement each element of the adjacency matrix by 1
-void Graph::operator--() {
+Graph& Graph::operator--() {
     size_t size = this->getMatrix().size();
     for (size_t i = 0; i < size; i++) {
         for (size_t j = 0; j < size; j++) {
             this->getMatrix()[i][j]--;
         }
     }
+    return *this; // Return reference to the current object
 }
 
 // Comparison operators for equality, less than, and greater than
@@ -287,7 +290,7 @@ void Graph::operator*=(int num) {
 }
 
 // Graph multiplication operator (matrix multiplication)
-Graph Graph::operator*(Graph& g1) {
+Graph& Graph::operator*(Graph& g1) {
     if (this->getMatrix()[0].size() != g1.getMatrix().size()) {
         throw std::invalid_argument("Matrix dimensions do not match for multiplication");
     }
