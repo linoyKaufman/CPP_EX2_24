@@ -206,14 +206,6 @@ void Graph::operator++() {
         }
     }
 }
-void Graph::operator++() {
-    size_t size = this->getMatrix().size();
-    for (size_t i = 0; i < size; i++) {
-        for (size_t j = 0; j < size; j++) {
-            this->getMatrix()[i][j]++;
-        }
-    }
-}
 
 
 // Decrement each element of the adjacency matrix by 1
